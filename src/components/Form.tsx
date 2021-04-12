@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { Paper } from "@material-ui/core";
+import { Box, Paper } from "@material-ui/core";
 import { MyContext } from "../context/context";
 import { v1 as uuidv1 } from "uuid";
 
@@ -50,40 +50,57 @@ export default function SignIn() {
     <Paper>
       <Grid container>
         <Grid item>
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="title"
-              label="Title (optional...)"
-              name="title"
-              type="text"
-              value={val.title}
-              onChange={handleChange}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              name="description"
-              label="Description"
-              type="textarea"
-              id="password"
-              autoFocus
-              value={val.description}
-              onChange={handleChange}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Dodaj
-            </Button>
-          </form>
+          <Box p={2}>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="title"
+                label="Title (optional...)"
+                name="title"
+                type="text"
+                value={val.title}
+                onChange={handleChange}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="description"
+                label="Description"
+                type="textarea"
+                id="password"
+                autoFocus
+                value={val.description}
+                onChange={handleChange}
+              />
+
+              <Grid container spacing={3}>
+                <Grid item xs={6}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    className={classes.submit}
+                    onClick={toogleForm}
+                  >
+                    Anuluj
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                  >
+                    Dodaj
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Box>
         </Grid>
       </Grid>
     </Paper>

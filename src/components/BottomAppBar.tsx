@@ -14,14 +14,16 @@ export default function BottomAppBar() {
   return (
     <AppBar position="fixed" color="primary" className={classes.appBar}>
       <Toolbar>
-        <Fab
-          color="secondary"
-          aria-label="add"
-          className={classes.fabButton}
-          onClick={toogleForm}
-        >
-          <AddIcon />
-        </Fab>
+        {isOpenForm || (
+          <Fab
+            color="secondary"
+            aria-label="add"
+            className={classes.fabButton}
+            onClick={toogleForm}
+          >
+            <AddIcon />
+          </Fab>
+        )}
       </Toolbar>
       {isOpenForm && <Form />}
     </AppBar>
