@@ -56,17 +56,6 @@ export default function SignIn() {
                 variant="outlined"
                 margin="normal"
                 fullWidth
-                id="title"
-                label="Title (optional...)"
-                name="title"
-                type="text"
-                value={val.title}
-                onChange={handleChange}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
                 name="description"
                 label="Description"
                 type="textarea"
@@ -75,7 +64,17 @@ export default function SignIn() {
                 value={val.description}
                 onChange={handleChange}
               />
-
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="title"
+                label="Title (optional...)"
+                name="title"
+                type="text"
+                value={val.title}
+                onChange={handleChange}
+              />
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <Button

@@ -26,8 +26,7 @@ function App() {
   };
 
   const deleteNote = (id: string) => {
-    console.log("deleted", id);
-    // setNotes((notes) => notes.filter((note) => note.id !== id));
+    setNotes((notes) => notes.filter((note) => note.id !== id));
   };
 
   const toogleForm = () => setIsOpenForm((isOpenForm) => !isOpenForm);

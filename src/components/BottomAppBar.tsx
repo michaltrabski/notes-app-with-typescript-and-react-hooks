@@ -6,6 +6,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Form from "./Form";
 import { MyContext } from "../context/context";
+import { Typography } from "@material-ui/core";
 
 export default function BottomAppBar() {
   const classes = useStyles();
@@ -14,7 +15,9 @@ export default function BottomAppBar() {
   return (
     <AppBar position="fixed" color="primary" className={classes.appBar}>
       <Toolbar>
-        {isOpenForm || (
+        {isOpenForm ? (
+          <Typography variant="overline">You are adding note:</Typography>
+        ) : (
           <Fab
             color="secondary"
             aria-label="add"
