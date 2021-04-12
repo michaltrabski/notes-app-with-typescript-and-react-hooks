@@ -18,6 +18,7 @@ export type MyContextType = {
   updateNotes: (note: Note) => void;
   toogleForm: () => void;
   isOpenForm: boolean;
+  deleteNote: (id: string) => void;
 };
 
 export const MyContext = createContext<MyContextType>({
@@ -27,5 +28,6 @@ export const MyContext = createContext<MyContextType>({
   updateNotes: (note) => console.log("Implement updateNotes method"),
   toogleForm: () => console.log("Implement toogleForm method"),
   isOpenForm: false,
+  deleteNote: () => console.log("Implement deleteNote method"),
 });
 export const useTheme = () => useContext(MyContext);

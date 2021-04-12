@@ -12,22 +12,34 @@ import { MyContext, Note, Theme as MyTheme } from "./context/context";
 function App() {
   const classes = useStyles();
   const [theme, setTheme] = React.useState(MyTheme.Light);
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<Note[]>([
+    { id: "asd", title: "", description: "Pierwsza notatka!" },
+  ]);
   const [isOpenForm, setIsOpenForm] = useState(false);
 
   const updateNotes = (note: Note) => {
     setNotes((prevNotes) => [note, ...prevNotes]);
   };
 
-  const toogleForm = () => {
-    console.log("xxxxxxxxxx");
-    setIsOpenForm((isOpenForm) => !isOpenForm);
+  const deleteNote = (id: string) => {
+    console.log("deleted", id);
+    setNotes((notes) => notes.filter((note) => note.id !== id));
   };
+
+  const toogleForm = () => setIsOpenForm((isOpenForm) => !isOpenForm);
 
   return (
     <>
       <MyContext.Provider
-        value={{ theme, setTheme, notes, updateNotes, toogleForm, isOpenForm }}
+        value={{
+          theme,
+          setTheme,
+          notes,
+          updateNotes,
+          toogleForm,
+          isOpenForm,
+          deleteNote,
+        }}
       >
         <CssBaseline />
         <Paper square className={classes.paper}>
