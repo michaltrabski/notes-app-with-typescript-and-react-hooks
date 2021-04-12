@@ -11,17 +11,21 @@ export type Note = {
   description: string;
 };
 
-export type ThemeContextType = {
+export type MyContextType = {
   theme: Theme;
   setTheme: (Theme: Theme) => void;
   notes: Note[];
   updateNotes: (note: Note) => void;
+  toogleForm: () => void;
+  isOpenForm: boolean;
 };
 
-export const ThemeContext = createContext<ThemeContextType>({
+export const MyContext = createContext<MyContextType>({
   theme: Theme.Dark,
   setTheme: (theme) => console.warn("no theme provider"),
   notes: [{ id: "", title: "", description: "" }],
-  updateNotes: (note) => console.log("zmieniam note"),
+  updateNotes: (note) => console.log("Implement updateNotes method"),
+  toogleForm: () => console.log("Implement toogleForm method"),
+  isOpenForm: false,
 });
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => useContext(MyContext);

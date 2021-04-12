@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Paper } from "@material-ui/core";
-import { ThemeContext } from "../context/context";
+import { MyContext } from "../context/context";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,13 +37,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const { notes, updateNotes } = useContext(ThemeContext);
-  console.log(notes, updateNotes);
+  const { notes, updateNotes, toogleForm } = useContext(MyContext);
+
+  const handleSubmit = (e: React.FormEvent<EventTarget>) => {
+    e.preventDefault();
+    // console.log(notes, updateNotes);
+    updateNotes({ id: "XXX", title: "sdfsdf", description: "srwtert" });
+    toogleForm();
+  };
   return (
     <Paper>
       <Grid container>
         <Grid item>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -69,9 +75,6 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() =>
-                updateNotes({ id: "XXX", title: "", description: "" })
-              }
             >
               Dodaj
             </Button>

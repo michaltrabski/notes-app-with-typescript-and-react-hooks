@@ -3,34 +3,26 @@ import Form from "./Form";
 import MyDrawer from "./MyDrawer";
 import NoteCard from "./NoteCard";
 import { ReactComponent as YourSvg } from "../media/undraw_access_denied_re_awnf.svg";
-import { ThemeContext, Theme as MyTheme } from "../context/context";
+import { MyContext, Theme as MyTheme } from "../context/context";
+import { Typography } from "@material-ui/core";
 
 export default function Notes() {
-  const { notes } = useContext(ThemeContext);
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { id, value, name } = e.target;
-  //   // console.log(id, value);
-
-  //   const newNote = notes.find((note) => note.id === id);
-
-  //   if (newNote) {
-  //     newNote[name] = value;
-  //     console.log(newNote);
-
-  //     const newNotes = notes.map((note) => {
-  //       return note.id === newNote.id ? newNote : note;
-  //     });
-
-  //     setNotes(newNotes);
-  //   }
-  // };
+  const { notes } = useContext(MyContext);
 
   return (
     <>
-      {notes.map((note) => (
-        <NoteCard key={note.id} note={note} />
-      ))}
+      {notes.length > 0 ? (
+        notes.map((note) => <NoteCard key={note.id} note={note} />)
+      ) : (
+        <Typography
+          variant="overline"
+          display="block"
+          gutterBottom
+          align="center"
+        >
+          You have 0 notes!
+        </Typography>
+      )}
     </>
   );
 }
