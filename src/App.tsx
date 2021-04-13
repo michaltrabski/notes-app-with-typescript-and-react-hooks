@@ -5,28 +5,50 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Notes from "./components/Notes";
-import { MyContext, Note, Theme as MyTheme } from "./context/context";
+import {
+  formValueTemplate,
+  MyContext,
+  Note,
+  Theme as MyTheme,
+} from "./context/context";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import { v1 as uuidv1 } from "uuid";
 
 function App() {
   const classes = useStyles();
   const [theme, setTheme] = React.useState(MyTheme.Light);
-  // const [notes, setNotes] = useState<Note[]>([
-  //   { id: "id", title: "", description: "Pierwsza notatka!" },
-  // ]);
+  const [formValue, setFormValue] = useState(formValueTemplate);
 
-  const [notes, setNotes] = useLocalStorage<Note[]>("ssssssssss", [
-    { id: "id", title: "", description: "Pierwsza notatka!" },
+  const [notes, setNotes] = useLocalStorage<Note[]>("notes", [
+    { id: uuidv1(), title: "", description: "Pierwsza notatka!" },
   ]);
 
   const [isOpenForm, setIsOpenForm] = useState(false);
 
-  const updateNotes = (note: Note) => {
-    setNotes((prevNotes) => [note, ...prevNotes]);
+  const updateNotes = (_note: Note) => {
+    if (_note.id) {
+      setNotes(notes.map((note) => (note.id === _note.id ? _note : note)));
+      setFormValue(formValueTemplate);
+      return;
+    }
+
+    const newNote = { ..._note };
+    newNote.id = uuidv1();
+    setNotes((prevNotes) => [newNote, ...prevNotes]);
   };
 
   const deleteNote = (id: string) => {
     setNotes((notes) => notes.filter((note) => note.id !== id));
+  };
+
+  const editNote = (id: string) => {
+    toogleForm();
+    const currentNote = notes.find((note) => note.id === id);
+    if (currentNote) setFormValue(currentNote);
+  };
+
+  const handleFormChange = (key: string, value: string) => {
+    setFormValue((p) => ({ ...p, [key]: value }));
   };
 
   const toogleForm = () => setIsOpenForm((isOpenForm) => !isOpenForm);
@@ -42,6 +64,9 @@ function App() {
           toogleForm,
           isOpenForm,
           deleteNote,
+          editNote,
+          formValue,
+          handleFormChange,
         }}
       >
         <CssBaseline />

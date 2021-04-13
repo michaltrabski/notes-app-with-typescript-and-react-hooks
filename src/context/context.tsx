@@ -1,5 +1,11 @@
 import { createContext, useContext } from "react";
 
+export const formValueTemplate = {
+  id: "",
+  title: "",
+  description: "",
+};
+
 export enum Theme {
   Dark = "Dark",
   Light = "Light",
@@ -19,6 +25,9 @@ export type MyContextType = {
   toogleForm: () => void;
   isOpenForm: boolean;
   deleteNote: (id: string) => void;
+  editNote: (id: string) => void;
+  formValue: Note;
+  handleFormChange: (key: string, value: string) => void;
 };
 
 export const MyContext = createContext<MyContextType>({
@@ -29,5 +38,8 @@ export const MyContext = createContext<MyContextType>({
   toogleForm: () => console.log("Implement toogleForm method"),
   isOpenForm: false,
   deleteNote: () => console.log("Implement deleteNote method"),
+  editNote: () => console.log("Implement deleteNote method"),
+  formValue: { id: "", title: "", description: "" },
+  handleFormChange: () => console.log("Implement handleFormChange method"),
 });
 export const useTheme = () => useContext(MyContext);

@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { MyContext, Note } from "../context/context";
 import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
 
 interface Props {
   note: Note;
@@ -17,7 +18,7 @@ export default function NoteCard(props: Props) {
   const classes = useStyles();
   const [editMode, setEditMode] = useState(false);
   const { id, title, description } = props.note;
-  const { deleteNote } = useContext(MyContext);
+  const { editNote, deleteNote } = useContext(MyContext);
 
   const toogleEditMode = () => {
     setEditMode((prevState) => !prevState);
@@ -38,7 +39,14 @@ export default function NoteCard(props: Props) {
           )}
         </CardContent>
       </CardActionArea>
-      <Box>
+      <Box className={classes.box}>
+        <IconButton
+          aria-label="edit"
+          color="secondary"
+          onClick={() => editNote(id)}
+        >
+          <EditIcon />
+        </IconButton>
         <IconButton
           aria-label="delete"
           color="secondary"
@@ -56,5 +64,9 @@ const useStyles = makeStyles({
     maxWidth: "100%",
     margin: "20px",
     display: "flex",
+    alignItems: "center",
+  },
+  box: {
+    flexShrink: 0,
   },
 });

@@ -27,15 +27,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function Form() {
   const classes = useStyles();
-  const [val, setVal] = useState({ title: "", description: "" });
-  const { updateNotes, toogleForm } = useContext(MyContext);
+  const {
+    notes,
+    updateNotes,
+    toogleForm,
+    formValue,
+    handleFormChange,
+  } = useContext(MyContext);
 
   const handleSubmit = (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    const id = uuidv1();
-    const { title, description } = val;
+
+    const { id, title, description } = formValue;
     if (title === "" && description === "") return toogleForm();
 
     updateNotes({ id, title, description });
@@ -44,7 +49,7 @@ export default function SignIn() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    setVal((p) => ({ ...p, [e.target.name]: e.target.value }));
+    handleFormChange(e.target.name, e.target.value);
   };
   return (
     <Paper>
@@ -57,14 +62,14 @@ export default function SignIn() {
                 margin="normal"
                 fullWidth
                 name="description"
-                label="Description"
+                label="Note"
                 type="textarea"
                 id="password"
                 autoFocus
-                value={val.description}
+                value={formValue.description}
                 onChange={handleChange}
               />
-              <TextField
+              {/* <TextField
                 variant="outlined"
                 margin="normal"
                 fullWidth
@@ -72,9 +77,9 @@ export default function SignIn() {
                 label="Title (optional...)"
                 name="title"
                 type="text"
-                value={val.title}
+                value={formValue.title}
                 onChange={handleChange}
-              />
+              /> */}
               <Grid container spacing={3}>
                 <Grid item xs={6}>
                   <Button
