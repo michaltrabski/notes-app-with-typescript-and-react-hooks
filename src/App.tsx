@@ -10,6 +10,7 @@ import {
   MyContext,
   Note,
   Theme as MyTheme,
+  ToogleFormValue,
 } from "./context/context";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { v1 as uuidv1 } from "uuid";
@@ -19,9 +20,7 @@ function App() {
   const [theme, setTheme] = React.useState(MyTheme.Light);
   const [formValue, setFormValue] = useState(formValueTemplate);
 
-  const [notes, setNotes] = useLocalStorage<Note[]>("notes", [
-    { id: uuidv1(), title: "", description: "Pierwsza notatka!" },
-  ]);
+  const [notes, setNotes] = useLocalStorage<Note[]>("notes", []);
 
   const [isOpenForm, setIsOpenForm] = useState(false);
 
@@ -35,6 +34,7 @@ function App() {
     const newNote = { ..._note };
     newNote.id = uuidv1();
     setNotes((prevNotes) => [newNote, ...prevNotes]);
+    setFormValue(formValueTemplate);
   };
 
   const deleteNote = (id: string) => {
@@ -42,7 +42,7 @@ function App() {
   };
 
   const editNote = (id: string) => {
-    toogleForm();
+    toogleForm(ToogleFormValue.Open);
     const currentNote = notes.find((note) => note.id === id);
     if (currentNote) setFormValue(currentNote);
   };
@@ -51,7 +51,11 @@ function App() {
     setFormValue((p) => ({ ...p, [key]: value }));
   };
 
-  const toogleForm = () => setIsOpenForm((isOpenForm) => !isOpenForm);
+  const toogleForm = (toogleFormValue?: ToogleFormValue) => {
+    if (toogleFormValue === ToogleFormValue.Open) return setIsOpenForm(true);
+    if (toogleFormValue === ToogleFormValue.Close) return setIsOpenForm(false);
+    setIsOpenForm((isOpenForm) => !isOpenForm);
+  };
 
   return (
     <>

@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { Box, Paper } from "@material-ui/core";
-import { MyContext } from "../context/context";
+import { MyContext, ToogleFormValue } from "../context/context";
 import { v1 as uuidv1 } from "uuid";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,10 +40,11 @@ export default function Form() {
   const handleSubmit = (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
 
-    const { id, title, description } = formValue;
-    if (title === "" && description === "") return toogleForm();
+    if (formValue.title === "" && formValue.description === "") {
+      return toogleForm();
+    }
 
-    updateNotes({ id, title, description });
+    updateNotes(formValue);
     toogleForm();
   };
 
@@ -86,7 +87,7 @@ export default function Form() {
                     fullWidth
                     variant="contained"
                     className={classes.submit}
-                    onClick={toogleForm}
+                    onClick={() => toogleForm(ToogleFormValue.Close)}
                   >
                     Anuluj
                   </Button>
@@ -98,6 +99,11 @@ export default function Form() {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
+                    disabled={
+                      formValue.title === "" && formValue.description === ""
+                        ? true
+                        : false
+                    }
                   >
                     Dodaj
                   </Button>

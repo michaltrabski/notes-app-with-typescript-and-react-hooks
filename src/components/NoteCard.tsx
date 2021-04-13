@@ -8,23 +8,24 @@ import { MyContext, Note } from "../context/context";
 import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { yellow } from "@material-ui/core/colors";
+import classNames from "classnames";
 
 interface Props {
   note: Note;
-  // handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function NoteCard(props: Props) {
   const classes = useStyles();
   const [editMode, setEditMode] = useState(false);
-  const { id, title, description } = props.note;
+  const { id, title, description, pointIt } = props.note;
   const { editNote, deleteNote } = useContext(MyContext);
 
   const toogleEditMode = () => {
     setEditMode((prevState) => !prevState);
   };
   return (
-    <Card className={classes.root}>
+    <Card className={classNames(classes.root, { [classes.pointIt]: pointIt })}>
       <CardActionArea disableTouchRipple={editMode} onClick={toogleEditMode}>
         <CardContent>
           {title && (
@@ -37,6 +38,7 @@ export default function NoteCard(props: Props) {
               {description}
             </Typography>
           )}
+          {JSON.stringify(props.note)}
         </CardContent>
       </CardActionArea>
       <Box className={classes.box}>
@@ -68,5 +70,8 @@ const useStyles = makeStyles({
   },
   box: {
     flexShrink: 0,
+  },
+  pointIt: {
+    backgroundColor: yellow[300],
   },
 });

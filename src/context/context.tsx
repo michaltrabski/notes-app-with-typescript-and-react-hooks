@@ -4,6 +4,7 @@ export const formValueTemplate = {
   id: "",
   title: "",
   description: "",
+  pointIt: false,
 };
 
 export enum Theme {
@@ -11,10 +12,16 @@ export enum Theme {
   Light = "Light",
 }
 
+export enum ToogleFormValue {
+  Open,
+  Close,
+}
+
 export type Note = {
   id: string;
   title: string;
   description: string;
+  pointIt: boolean;
 };
 
 export type MyContextType = {
@@ -22,7 +29,7 @@ export type MyContextType = {
   setTheme: (Theme: Theme) => void;
   notes: Note[];
   updateNotes: (note: Note) => void;
-  toogleForm: () => void;
+  toogleForm: (toogleFormValue?: ToogleFormValue) => void;
   isOpenForm: boolean;
   deleteNote: (id: string) => void;
   editNote: (id: string) => void;
@@ -33,13 +40,13 @@ export type MyContextType = {
 export const MyContext = createContext<MyContextType>({
   theme: Theme.Dark,
   setTheme: (theme) => console.warn("no theme provider"),
-  notes: [{ id: "", title: "", description: "" }],
+  notes: [formValueTemplate],
   updateNotes: (note) => console.log("Implement updateNotes method"),
   toogleForm: () => console.log("Implement toogleForm method"),
   isOpenForm: false,
   deleteNote: () => console.log("Implement deleteNote method"),
   editNote: () => console.log("Implement deleteNote method"),
-  formValue: { id: "", title: "", description: "" },
+  formValue: formValueTemplate,
   handleFormChange: () => console.log("Implement handleFormChange method"),
 });
 export const useTheme = () => useContext(MyContext);

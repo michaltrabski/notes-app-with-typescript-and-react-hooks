@@ -22,7 +22,7 @@ export default function BottomAppBar() {
             color="secondary"
             aria-label="add"
             className={classes.fabButton}
-            onClick={toogleForm}
+            onClick={() => toogleForm()}
           >
             <AddIcon />
           </Fab>
