@@ -1,18 +1,18 @@
-import React, { useState, useContext } from "react";
-import Form from "./Form";
-import MyDrawer from "./MyDrawer";
+import React, { useContext } from "react";
 import NoteCard from "./NoteCard";
-import { ReactComponent as YourSvg } from "../media/undraw_access_denied_re_awnf.svg";
-import { MyContext, Theme as MyTheme } from "../context/context";
+import { MyContext, NoteStatus } from "../context/context";
 import { Typography } from "@material-ui/core";
 
 export default function Notes() {
   const { notes } = useContext(MyContext);
 
+  const publishedNotes = notes.filter(
+    (note) => note.status === NoteStatus.Published
+  );
   return (
     <>
-      {notes.length > 0 ? (
-        notes.map((note) => <NoteCard key={note.id} note={note} />)
+      {publishedNotes.length > 0 ? (
+        publishedNotes.map((note) => <NoteCard key={note.id} note={note} />)
       ) : (
         <Typography
           variant="overline"

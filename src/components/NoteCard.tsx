@@ -19,7 +19,7 @@ export default function NoteCard(props: Props) {
   const classes = useStyles();
   const [editMode, setEditMode] = useState(false);
   const { id, title, description, pointIt } = props.note;
-  const { editNote, deleteNote } = useContext(MyContext);
+  const { editNote, moveNoteToTrash } = useContext(MyContext);
 
   const toogleEditMode = () => {
     setEditMode((prevState) => !prevState);
@@ -56,7 +56,7 @@ export default function NoteCard(props: Props) {
         <IconButton
           aria-label="delete"
           color="secondary"
-          onClick={() => deleteNote(id)}
+          onClick={() => moveNoteToTrash(id)}
         >
           <DeleteIcon />
         </IconButton>

@@ -9,11 +9,13 @@ import {
   formValueTemplate,
   MyContext,
   Note,
+  NoteStatus,
   Theme as MyTheme,
   ToogleFormValue,
 } from "./context/context";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { v1 as uuidv1 } from "uuid";
+import { Badge } from "@material-ui/core";
 
 function App() {
   const classes = useStyles();
@@ -35,6 +37,14 @@ function App() {
     newNote.id = uuidv1();
     setNotes((prevNotes) => [newNote, ...prevNotes]);
     setFormValue(formValueTemplate);
+  };
+
+  const moveNoteToTrash = (id: string) => {
+    setNotes(
+      notes.map((note) =>
+        note.id === id ? { ...note, status: NoteStatus.Deleted } : note
+      )
+    );
   };
 
   const deleteNote = (id: string) => {
@@ -68,6 +78,7 @@ function App() {
           toogleForm,
           isOpenForm,
           deleteNote,
+          moveNoteToTrash,
           editNote,
           formValue,
           handleFormChange,

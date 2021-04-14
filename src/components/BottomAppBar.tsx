@@ -6,7 +6,9 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import Form from "./Form";
 import { MyContext } from "../context/context";
-import { Typography } from "@material-ui/core";
+import { Badge, Box, IconButton, Typography } from "@material-ui/core";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import Brightness3TwoToneIcon from "@material-ui/icons/Brightness3TwoTone";
 
 export default function BottomAppBar() {
   const classes = useStyles();
@@ -14,20 +16,33 @@ export default function BottomAppBar() {
 
   return (
     <AppBar position="fixed" color="primary" className={classes.appBar}>
-      <Toolbar>
+      <Toolbar className={classes.flex}>
         {isOpenForm ? (
           <Typography variant="overline">You are adding note:</Typography>
         ) : (
-          <Fab
-            color="secondary"
-            aria-label="add"
-            className={classes.fabButton}
-            onClick={() => toogleForm()}
-          >
-            <AddIcon />
-          </Fab>
+          <>
+            <IconButton aria-label="deleted items" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <DeleteOutlineIcon />
+              </Badge>
+            </IconButton>
+
+            <IconButton aria-label="deleted items" color="inherit">
+              <Brightness3TwoToneIcon />
+            </IconButton>
+
+            <Fab
+              color="secondary"
+              aria-label="add"
+              className={classes.fabButton}
+              onClick={() => toogleForm()}
+            >
+              <AddIcon />
+            </Fab>
+          </>
         )}
       </Toolbar>
+
       {isOpenForm && <Form />}
     </AppBar>
   );
@@ -39,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "auto",
       bottom: 0,
     },
+    flex: { display: "flex", justifyContent: "space-between" },
     fabButton: {
       position: "absolute",
       zIndex: 1,
