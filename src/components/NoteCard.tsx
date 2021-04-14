@@ -26,7 +26,11 @@ export default function NoteCard(props: Props) {
   };
   return (
     <Card className={classNames(classes.root, { [classes.pointIt]: pointIt })}>
-      <CardActionArea disableTouchRipple={editMode} onClick={toogleEditMode}>
+      <CardActionArea
+        disableTouchRipple={editMode}
+        onClick={toogleEditMode}
+        className={classes.overflow}
+      >
         <CardContent>
           {title && (
             <Typography gutterBottom variant="h5" component="h2">
@@ -38,7 +42,7 @@ export default function NoteCard(props: Props) {
               {description}
             </Typography>
           )}
-          {JSON.stringify(props.note)}
+          {/* {JSON.stringify(props.note)} */}
         </CardContent>
       </CardActionArea>
       <Box className={classes.box}>
@@ -73,5 +77,8 @@ const useStyles = makeStyles({
   },
   pointIt: {
     backgroundColor: yellow[300],
+  },
+  overflow: {
+    overflow: "auto",
   },
 });
