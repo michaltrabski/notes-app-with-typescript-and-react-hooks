@@ -20,7 +20,7 @@ export default function Notes() {
           gutterBottom
           align="center"
         >
-          You have 0 notes!
+          You have 0 items in this category!
         </Typography>
       )}
     </>

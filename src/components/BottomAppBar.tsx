@@ -7,8 +7,9 @@ import AddIcon from "@material-ui/icons/Add";
 import Form from "./Form";
 import { MyContext } from "../context/context";
 import { Badge, Box, IconButton, Typography } from "@material-ui/core";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import HomeTwoToneIcon from "@material-ui/icons/HomeTwoTone";
 import Brightness3TwoToneIcon from "@material-ui/icons/Brightness3TwoTone";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function BottomAppBar() {
   const classes = useStyles();
@@ -21,10 +22,13 @@ export default function BottomAppBar() {
           <Typography variant="overline">You are adding note:</Typography>
         ) : (
           <>
-            <IconButton aria-label="deleted items" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <DeleteOutlineIcon />
-              </Badge>
+            <IconButton
+              aria-label="deleted items"
+              color="inherit"
+              component={RouterLink}
+              to="/"
+            >
+              <HomeTwoToneIcon />
             </IconButton>
 
             <IconButton aria-label="deleted items" color="inherit">

@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Notes from "./components/Notes";
 import {
   formValueTemplate,
+  ListsOfNotes,
   MyContext,
   Note,
   NoteStatus,
@@ -15,14 +16,35 @@ import {
 } from "./context/context";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { v1 as uuidv1 } from "uuid";
-import { Badge } from "@material-ui/core";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Badge, Box, IconButton } from "@material-ui/core";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { Link as RouterLink } from "react-router-dom";
 
 function App() {
   const classes = useStyles();
-  const [theme, setTheme] = React.useState(MyTheme.Light);
+  const [theme, setTheme] = useState(MyTheme.Light);
   const [formValue, setFormValue] = useState(formValueTemplate);
 
-  const [notes, setNotes] = useLocalStorage<Note[]>("notes", []);
+  const [listsOfNotes, setListsOfNotes] = useLocalStorage<ListsOfNotes[]>(
+    "listsOfNotes",
+    [
+      { listName: "Notatki", slug: "notatki" },
+      { listName: "Lidl", slug: "lidl" },
+      { listName: "Allegro", slug: "allegro" },
+    ]
+  );
+
+  const [currentList, setCurrentList] = useState(0);
+
+  const [notes, setNotes] = useLocalStorage<Note[]>(
+    listsOfNotes[currentList].slug,
+    []
+  );
+
+  const notesInTrash = notes.filter(
+    (note) => note.status === NoteStatus.Deleted
+  );
 
   const [isOpenForm, setIsOpenForm] = useState(false);
 
@@ -85,18 +107,46 @@ function App() {
         }}
       >
         <CssBaseline />
-        <Paper square className={classes.paper}>
-          <Typography
-            className={classes.text}
-            variant="h5"
-            gutterBottom
-            align="center"
-          >
-            Notes App
-          </Typography>
-          <Notes />
-        </Paper>
-        <BottomAppBar />
+
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Paper square className={classes.paper}>
+                <Box className={classes.headline}>
+                  <Typography
+                    className={classes.text}
+                    variant="h5"
+                    gutterBottom
+                    align="center"
+                  >
+                    {listsOfNotes[currentList].listName} :{" "}
+                    {notes.length - notesInTrash.length}
+                  </Typography>
+
+                  {notesInTrash.length > 0 && (
+                    <IconButton
+                      aria-label="deleted items"
+                      color="primary"
+                      component={RouterLink}
+                      to="/kosz"
+                    >
+                      <Badge
+                        badgeContent={notesInTrash.length}
+                        color="secondary"
+                      >
+                        <DeleteOutlineIcon />
+                      </Badge>
+                    </IconButton>
+                  )}
+                </Box>
+
+                <Notes />
+              </Paper>
+            </Route>
+            <Route path="/kosz">kosz</Route>
+          </Switch>
+          <BottomAppBar />
+        </Router>
       </MyContext.Provider>
     </>
   );
@@ -111,6 +161,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       paddingBottom: 50,
+    },
+    headline: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "baseline",
     },
   })
 );

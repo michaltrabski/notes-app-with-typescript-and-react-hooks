@@ -32,6 +32,8 @@ export default function NoteCard(props: Props) {
         className={classes.overflow}
       >
         <CardContent>
+          {/* <Box className={classes.date}>24.08.2021 (2 dni temu)</Box> */}
+
           {title && (
             <Typography gutterBottom variant="h5" component="h2">
               {title}
@@ -80,5 +82,11 @@ const useStyles = makeStyles({
   },
   overflow: {
     overflow: "auto",
+  },
+  date: {
+    position: "absolute",
+    top: "1px",
+    left: "1px",
+    fontSize: ".6em",
   },
 });

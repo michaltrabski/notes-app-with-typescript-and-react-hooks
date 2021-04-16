@@ -4,7 +4,6 @@ export enum NoteStatus {
   Published = "PUBLISHED",
   Deleted = "DELETED",
 }
-
 export const formValueTemplate = {
   id: "",
   title: "",
@@ -22,6 +21,11 @@ export enum ToogleFormValue {
   Open = "OPEN",
   Close = "CLOSE",
 }
+
+export type ListsOfNotes = {
+  listName: string;
+  slug: string;
+};
 
 export type Note = {
   id: string;

@@ -66,6 +66,7 @@ export default function Form() {
                 label="Note"
                 type="textarea"
                 id="password"
+                autoComplete="off"
                 autoFocus
                 value={formValue.description}
                 onChange={handleChange}
