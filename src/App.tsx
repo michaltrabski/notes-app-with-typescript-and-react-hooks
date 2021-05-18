@@ -20,6 +20,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Badge, Box, IconButton } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Link as RouterLink } from "react-router-dom";
+import HomePage from "./views/HomePage";
 
 function App() {
   const classes = useStyles();
@@ -111,6 +112,10 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/">
+              <HomePage listsOfNotes={listsOfNotes} />
+            </Route>
+
+            <Route path="/note">
               <Paper square className={classes.paper}>
                 <Box className={classes.headline}>
                   <Typography
