@@ -6,6 +6,7 @@ import { Typography } from "@material-ui/core";
 export default function Notes() {
   const { notes } = useContext(MyContext);
 
+  console.log("cccccccccccccccc", notes);
   const publishedNotes = notes.filter(
     (note) => note.status === NoteStatus.Published
   );

@@ -22,7 +22,7 @@ export enum ToogleFormValue {
   Close = "CLOSE",
 }
 
-export type ListsOfNotes = {
+export type Category = {
   listName: string;
   slug: string;
 };

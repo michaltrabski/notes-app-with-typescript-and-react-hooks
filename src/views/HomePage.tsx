@@ -1,9 +1,10 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
-import { ListsOfNotes } from "../context/context";
+import CategoryCard from "../components/CategoryCard";
+import { Category } from "../context/context";
 
 export interface Props {
-  listsOfNotes: ListsOfNotes[];
+  categories: Category[];
 }
 
 const HomePage = (props: Props) => {
@@ -12,8 +13,8 @@ const HomePage = (props: Props) => {
       <Typography variant="h4" component="h1" align="center">
         Your notes categories:
       </Typography>
-      {props.listsOfNotes.map((item) => (
-        <p>{item.listName}</p>
+      {props.categories.map((category) => (
+        <CategoryCard category={category} />
       ))}
     </>
   );

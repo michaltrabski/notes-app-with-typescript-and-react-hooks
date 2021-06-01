@@ -7,7 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Notes from "./components/Notes";
 import {
   formValueTemplate,
-  ListsOfNotes,
+  Category,
   MyContext,
   Note,
   NoteStatus,
@@ -16,33 +16,61 @@ import {
 } from "./context/context";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { v1 as uuidv1 } from "uuid";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import { Badge, Box, IconButton } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Link as RouterLink } from "react-router-dom";
 import HomePage from "./views/HomePage";
+import ItemPage from "./views/ItemPage";
 
 function App() {
   const classes = useStyles();
   const [theme, setTheme] = useState(MyTheme.Light);
   const [formValue, setFormValue] = useState(formValueTemplate);
 
-  const [listsOfNotes, setListsOfNotes] = useLocalStorage<ListsOfNotes[]>(
-    "listsOfNotes",
+  const [categories, setCategories] = useLocalStorage<Category[]>(
+    "categories",
     [
       { listName: "Notatki", slug: "notatki" },
       { listName: "Lidl", slug: "lidl" },
       { listName: "Allegro", slug: "allegro" },
+      { listName: "Bushcraft", slug: "bushcraft" },
     ]
   );
 
-  const [currentList, setCurrentList] = useState(0);
+  const [currentList, setCurrentList] = useLocalStorage<number>(
+    "currentNoteListNumber",
+    0
+  );
 
   const [notes, setNotes] = useLocalStorage<Note[]>(
-    listsOfNotes[currentList].slug,
+    categories[currentList].slug,
     []
   );
 
+  const changeCurrentNoteListNumber = (noteListSlug: string) => {
+    const nr = categories.findIndex((c) => `/${c.slug}` === noteListSlug);
+    if (nr !== -1) {
+      setCurrentList(nr);
+
+      const notesStr = localStorage.getItem(categories[nr].slug);
+      console.log(categories[nr], notesStr);
+      let notes: Note[] = [];
+      try {
+        if (notesStr) {
+          notes = JSON.parse(notesStr);
+          setNotes(() => notes);
+        }
+      } catch (err) {}
+    }
+  };
+  console.log("xxxxxxxxxxxxxxxxxxxx", notes);
   const notesInTrash = notes.filter(
     (note) => note.status === NoteStatus.Deleted
   );
@@ -112,43 +140,16 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/">
-              <HomePage listsOfNotes={listsOfNotes} />
+              <HomePage categories={categories} />
             </Route>
 
-            <Route path="/note">
-              <Paper square className={classes.paper}>
-                <Box className={classes.headline}>
-                  <Typography
-                    className={classes.text}
-                    variant="h5"
-                    gutterBottom
-                    align="center"
-                  >
-                    {listsOfNotes[currentList].listName} :{" "}
-                    {notes.length - notesInTrash.length}
-                  </Typography>
-
-                  {notesInTrash.length > 0 && (
-                    <IconButton
-                      aria-label="deleted items"
-                      color="primary"
-                      component={RouterLink}
-                      to="/kosz"
-                    >
-                      <Badge
-                        badgeContent={notesInTrash.length}
-                        color="secondary"
-                      >
-                        <DeleteOutlineIcon />
-                      </Badge>
-                    </IconButton>
-                  )}
-                </Box>
-
-                <Notes />
-              </Paper>
+            <Route path="/:id">
+              <ItemPage
+                categories={categories}
+                currentList={currentList}
+                changeCurrentNoteListNumber={changeCurrentNoteListNumber}
+              />
             </Route>
-            <Route path="/kosz">kosz</Route>
           </Switch>
           <BottomAppBar />
         </Router>
